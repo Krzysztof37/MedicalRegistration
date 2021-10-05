@@ -15,11 +15,12 @@
     <form:select path="treatmentStation" items="${treatmentStation}" itemLabel="nameStation" itemValue="id" />
     <form:select path="patient" items="${patients}" itemLabel="surName" itemValue="id"/>
     <input type="submit" value="wyslij"/>
-
+    <input type="number" step="1" min="1" max="15" value="1" name="dayNumber">
 
 </form:form>
 
 <p>${uniqueError}</p>
+<p>${sundayError}</p>
 </body>
 <a href="/procedure/add">Dodaj procedure</a>
 <a href="/procedure/getall">Lista procedur</a>

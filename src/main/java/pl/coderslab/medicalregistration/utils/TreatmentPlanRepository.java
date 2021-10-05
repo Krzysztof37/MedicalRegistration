@@ -10,6 +10,6 @@ import java.util.List;
 public interface TreatmentPlanRepository extends JpaRepository<TreatmentPlan, Long> {
 
     List<TreatmentPlan> findAllByDate(LocalDate localDate);
-
-
+    boolean existsTreatmentPlanByDateAndTimeAndTreatmentStationId(LocalDate localDate, LocalTime localTime, Long id);
+    boolean existsTreatmentPlanByDateAndTimeAndPatientId(LocalDate localDate, LocalTime localTime, Long id);
 }

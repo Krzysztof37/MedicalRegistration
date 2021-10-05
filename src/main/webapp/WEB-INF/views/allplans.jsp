@@ -22,7 +22,9 @@
     <p> ${plan.id} ${plan.date} ${plan.time} ${plan.patient} ${plan.treatmentStation}</p>
 
 </c:forEach>
-
+<p></p>
+<p>ewentualne błędy: ${planInfo}</p>
+<p></p>
 <a href="/procedure/add">Dodaj procedure</a>
 <a href="/procedure/getall">Lista procedur</a>
 <a href="/patients/getall">Lista pacjentów</a>
