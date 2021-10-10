@@ -79,7 +79,7 @@ public String automaticPlan(int dayNumber, TreatmentPlan treatmentPlan){
                     }
            }
            treatmentPlanNew.setTime(treatmentPlanNew.getTime().plusMinutes(30));
-           if(treatmentPlanNew.getTime().equals(checkTime) && checkAllDay == true){
+           if(treatmentPlanNew.getTime().equals(checkTime) && checkAllDay){
                checkAllDay = false;
                treatmentPlanNew.setTime(LocalTime.of(8,30));
            }

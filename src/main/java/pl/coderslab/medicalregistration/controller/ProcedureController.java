@@ -43,13 +43,14 @@ public class ProcedureController {
         return "addprocedure-form";
     }
     @PostMapping("/procedure/add")
-    public String addstationsPost(@Valid Procedure procedure, BindingResult result){
+    public String addstationsPost(@Valid Procedure procedure, BindingResult result, HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
         if(result.hasErrors()){
-            return "addprocedure-form";
+            return "zapis nie powiódł się, kliknij cofnij i wypełnij ponownie formularz";
         }else{
             procedureRepository.save(procedure);
         }
-        return "redirect:/procedure/getall";
+        return "zapis powiódł się";
     }
 
 

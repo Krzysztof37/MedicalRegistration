@@ -19,6 +19,7 @@ import pl.coderslab.medicalregistration.entity.Procedure;
 import pl.coderslab.medicalregistration.utils.PatientRepository;
 import pl.coderslab.medicalregistration.utils.ProcedureRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
@@ -39,24 +40,25 @@ public class PatientController {
     public String allPatients(Model model, HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
         List<Patient> patientsList = patientRepository.findAll();
-        model.addAttribute("patientsList", patientsList);
         Gson gson = new Gson();
-        String newList = gson.toJson(patientsList);
 
-        return newList;
+        return gson.toJson(patientsList);
     }
 
     @GetMapping("/patients/add")
-     public String addPatients(Model model){
-        model.addAttribute("patient", new Patient());
-
-        return "addpatients-form";
+     public String addPatients(HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        Patient patient = new Patient();
+        Gson gson = new Gson();
+        return gson.toJson(procedureRepository.findAll());
     }
     @PostMapping("/patients/add")
-    public String addPatientsPost(@Valid Patient patient, BindingResult result){
+    public String addPatientsPost(@Valid Patient patient, BindingResult result, HttpServletResponse resp, HttpServletRequest req){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        Gson gson = new Gson();
         if(result.hasErrors()){
-
-            return "addpatients-form";
+            String referer = req.getHeader("Referer");
+            return "Wystąpiły błędy  <a href='file:///home/krzysztof/Pulpit/frontendprojekt/front-end/patientsAdd.html'>Powrót</a>";
         }else{
             patientRepository.save(patient);
         }
