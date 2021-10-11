@@ -16,9 +16,9 @@ public class TreatmentStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @NotBlank
+    @NotBlank(message = "Podaj nazwę kabinki")
     String nameStation;
-    @NotNull
+    @NotNull(message = "Wybierz procedurę")
     @ManyToOne
     Procedure procedure;
 

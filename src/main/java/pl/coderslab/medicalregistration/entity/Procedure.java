@@ -16,9 +16,9 @@ public class Procedure {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @NotBlank
+    @NotBlank(message = "Nazwa procedury nie może być puste")
     String procedureName;
-    @NotBlank
+    @NotBlank(message = "Wpisz czas procedury")
     String procedureTime;
 
     @Override

@@ -58,11 +58,11 @@ public class PatientController {
         Gson gson = new Gson();
         if(result.hasErrors()){
             String referer = req.getHeader("Referer");
-            return "Wystąpiły błędy  <a href='file:///home/krzysztof/Pulpit/frontendprojekt/front-end/patientsAdd.html'>Powrót</a>";
+            return "Zapis nie powiódł się ";
         }else{
             patientRepository.save(patient);
         }
-        return "redirect:/patients/getall";
+        return "zapis wykonany ";
     }
 
     @ModelAttribute("procedures")
