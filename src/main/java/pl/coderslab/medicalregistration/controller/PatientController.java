@@ -53,16 +53,17 @@ public class PatientController {
         return gson.toJson(procedureRepository.findAll());
     }
     @PostMapping("/patients/add")
-    public String addPatientsPost(@Valid Patient patient, BindingResult result, HttpServletResponse resp, HttpServletRequest req){
+    public Object addPatientsPost(@Valid Patient patient, BindingResult result, HttpServletResponse resp, HttpServletRequest req){
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
         if(result.hasErrors()){
-            String referer = req.getHeader("Referer");
-            return "Zapis nie powiódł się ";
+            return result.getFieldErrors().stream().map(e -> e.getDefaultMessage());
+
         }else{
             patientRepository.save(patient);
         }
-        return "zapis wykonany ";
+        List<String> list = List.of("zapis wykonany");
+        return gson.toJson(list);
     }
 
     @ModelAttribute("procedures")

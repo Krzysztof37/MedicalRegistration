@@ -52,13 +52,15 @@ public class TreatmentStationController {
     @PostMapping("/stations/add")
     public Object addStationsPost(@Valid TreatmentStation treatmentStation, BindingResult result, HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
+        Gson gson = new Gson();
         if(result.hasErrors()){
        return result.getFieldErrors().stream().map(e -> e.getDefaultMessage());
 
         }else{
             treatmentStationRepository.save(treatmentStation);
         }
-        return "zapis wykonany";
+        List<String> list = List.of("zapis wykonany");
+        return gson.toJson(list);
     }
     @ModelAttribute("procedures")
     List<Procedure> getProceduresList() {

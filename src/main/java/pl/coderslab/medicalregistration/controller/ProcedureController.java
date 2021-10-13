@@ -48,12 +48,14 @@ public class ProcedureController {
     @PostMapping("/procedure/add")
     public Object addstationsPost(@Valid Procedure procedure, BindingResult result, HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
+        Gson gson = new Gson();
         if(result.hasErrors()){
          return result.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage);
         }else{
             procedureRepository.save(procedure);
         }
-        return "zapis wykonany";
+        List<String> list = List.of("zapis wykonany");
+        return gson.toJson(list);
     }
 
 

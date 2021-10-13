@@ -19,15 +19,15 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @NotBlank(message = "wypełnij pole")
-    @Size(min=2, message = "zbyt mało znaków")
+    @NotBlank(message = "wypełnij pole imię")
+    @Size(min=2, message = "imię - zbyt mało znaków")
     String name;
-    @NotBlank(message = "wypełnij pole")
-    @Size(min=2, message = "zbyt mało znaków")
+    @NotBlank(message = "wypełnij pole nazwisko")
+    @Size(min=2, message = "nazwisko - zbyt mało znaków")
     String surName;
-    @NotBlank(message = "wypełnij pole")
+    @NotBlank(message = "wypełnij pole email")
     String email;
-    @Size(min=3, message = "pacjent musi mieć minimum 3 procedury")
+    @NotNull(message = "pacjent musi mieć minimum 1 procedurę")
     @ManyToMany
     List<Procedure> procedure;
 
