@@ -1,16 +1,13 @@
 package pl.coderslab.medicalregistration.controller;
 
+import com.google.gson.Gson;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.coderslab.medicalregistration.entity.Patient;
 import pl.coderslab.medicalregistration.entity.TreatmentPlan;
-import pl.coderslab.medicalregistration.entity.TreatmentStation;
 import pl.coderslab.medicalregistration.utils.PatientRepository;
 import pl.coderslab.medicalregistration.utils.TreatmentPlanRepository;
 import pl.coderslab.medicalregistration.utils.TreatmentPlanService;
@@ -19,8 +16,6 @@ import pl.coderslab.medicalregistration.utils.TreatmentStationRepository;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -81,27 +76,31 @@ public class TreatmentPlanController {
     }
 
     @GetMapping("/get/date")
-    List<LocalDate> getDateList(HttpServletResponse resp){
+    String getDateList(HttpServletResponse resp){
 
         resp.setHeader("Access-Control-Allow-Origin", "*");
-        return treatmentPlanService.getDateListService();
+        Gson gson = new Gson();
+        return gson.toJson(treatmentPlanService.getDateListService());
     }
 
     @GetMapping("/get/time")
-    List<LocalTime> getTimeList(HttpServletResponse resp){
+    String getTimeList(HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
-        return treatmentPlanService.getTimeListService();
+        Gson gson = new Gson();
+        return gson.toJson(treatmentPlanService.getTimeListService());
     }
 
     @GetMapping("/get/treatmentStation")
-    List<TreatmentStation> getTreatmentStationList(HttpServletResponse resp){
+    String getTreatmentStationList(HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
-        return treatmentStationRepository.findAll();
+        Gson gson = new Gson();
+        return gson.toJson(treatmentStationRepository.findAll());
     }
     @GetMapping("/get/patients")
-    List<Patient> getPatients(HttpServletResponse resp){
+    String getPatients(HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
-        return patientRepository.findAll();
+        Gson gson = new Gson();
+        return gson.toJson(patientRepository.findAll());
     }
 
 }
