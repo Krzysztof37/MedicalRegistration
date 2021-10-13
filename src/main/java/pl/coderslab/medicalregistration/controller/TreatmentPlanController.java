@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.medicalregistration.entity.Patient;
 import pl.coderslab.medicalregistration.entity.TreatmentPlan;
 import pl.coderslab.medicalregistration.entity.TreatmentStation;
@@ -15,13 +16,14 @@ import pl.coderslab.medicalregistration.utils.TreatmentPlanRepository;
 import pl.coderslab.medicalregistration.utils.TreatmentPlanService;
 import pl.coderslab.medicalregistration.utils.TreatmentStationRepository;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 public class TreatmentPlanController {
     private static String planInfo;
     private final TreatmentPlanRepository treatmentPlanRepository;
@@ -78,22 +80,27 @@ public class TreatmentPlanController {
         return "redirect:/plans/getall";
     }
 
-    @ModelAttribute("date")
-    List<LocalDate> getDateList(){
+    @GetMapping("/get/date")
+    List<LocalDate> getDateList(HttpServletResponse resp){
+
+        resp.setHeader("Access-Control-Allow-Origin", "*");
         return treatmentPlanService.getDateListService();
     }
 
-    @ModelAttribute("time")
-    List<LocalTime> getTimeList(){
+    @GetMapping("/get/time")
+    List<LocalTime> getTimeList(HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
         return treatmentPlanService.getTimeListService();
     }
 
-    @ModelAttribute("treatmentStation")
-    List<TreatmentStation> getTreatmentStationList(){
+    @GetMapping("/get/treatmentStation")
+    List<TreatmentStation> getTreatmentStationList(HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
         return treatmentStationRepository.findAll();
     }
-    @ModelAttribute("patients")
-    List<Patient> getPatients(){
+    @GetMapping("/get/patients")
+    List<Patient> getPatients(HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
         return patientRepository.findAll();
     }
 
