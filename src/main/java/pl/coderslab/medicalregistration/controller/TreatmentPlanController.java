@@ -16,6 +16,7 @@ import pl.coderslab.medicalregistration.utils.TreatmentStationRepository;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,28 +53,31 @@ public class TreatmentPlanController {
         return "addplans-form";
     }
     @PostMapping("/plans/add")
-    public String addPlansPost(@Valid TreatmentPlan treatmentPlan, BindingResult result, Model model, @Param("dayNumber") int dayNumber){
+    public String addPlansPost(@Valid TreatmentPlan treatmentPlan, BindingResult result, Model model, @Param("dayNumber") int dayNumber, HttpServletResponse resp, @Param("date") String date, @Param("time") String time){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        treatmentPlan.setDate(LocalDate.parse(date));
+        treatmentPlan.setTime(LocalTime.parse(time));
+        Gson gson = new Gson();
         if(treatmentPlanService.isSunday(treatmentPlan.getDate())){
             model.addAttribute("sundayError","To niedziela!");
-            return "addplans-form";
+            List<String> listError1 = List.of("To niedziela!");
+            return gson.toJson(listError1);
         }
 
        if(!treatmentPlanService.DateTimeChecker(treatmentPlan)){
            model.addAttribute("uniqueError","termin jest zajęty! Wybierz inny");
-           return "addplans-form";
+           List<String> listError2 = List.of("termin jest zajęty! Wybierz inny");
+           return gson.toJson(listError2);
        }
 
-        if(result.hasErrors()){
-
-            return "addplans-form";
-        }else{
 
             treatmentPlanRepository.save(treatmentPlan);
             if(dayNumber>1){
                 planInfo = treatmentPlanService.automaticPlan(dayNumber,treatmentPlan);
             }
-        }
-        return "redirect:/plans/getall";
+
+        List<String> listSave = List.of("Zapis wykonany");
+        return gson.toJson(listSave);
     }
 
     @GetMapping("/get/date")
