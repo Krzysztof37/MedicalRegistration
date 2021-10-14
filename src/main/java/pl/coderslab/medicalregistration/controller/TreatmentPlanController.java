@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class TreatmentPlanController {
@@ -76,18 +77,17 @@ public class TreatmentPlanController {
     }
 
     @GetMapping("/get/date")
-    String getDateList(HttpServletResponse resp){
-
+    Object getDateList(HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
-        return gson.toJson(treatmentPlanService.getDateListService());
+        return gson.toJson(treatmentPlanService.getDateListService().stream().map(e -> e.toString()).collect(Collectors.toList()));
     }
 
     @GetMapping("/get/time")
     String getTimeList(HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
-        return gson.toJson(treatmentPlanService.getTimeListService());
+        return gson.toJson(treatmentPlanService.getTimeListService().stream().map(e -> e.toString()).collect(Collectors.toList()));
     }
 
     @GetMapping("/get/treatmentStation")
@@ -102,5 +102,8 @@ public class TreatmentPlanController {
         Gson gson = new Gson();
         return gson.toJson(patientRepository.findAll());
     }
+
+
+
 
 }
