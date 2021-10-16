@@ -5,6 +5,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.medicalregistration.entity.TreatmentPlan;
@@ -105,6 +106,24 @@ public class TreatmentPlanController {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
         return gson.toJson(patientRepository.findAll());
+    }
+
+    @GetMapping("/check/dateTime/{date}/{time}/{idStation}/{idPatients}")
+   String frontEndCheckDateTime(@PathVariable String date, @PathVariable String time, @PathVariable Long idStation,@PathVariable Long idPatients, HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        Gson gson = new Gson();
+
+        if(treatmentPlanService.isSunday(LocalDate.parse(date))){
+            List<String> listError1 = List.of("To niedziela!");
+            return gson.toJson(listError1);
+        }
+
+        if(!treatmentPlanService.frontEndDateTimeChecker(LocalDate.parse(date),LocalTime.parse(time),idStation, idPatients)){
+            List<String> listError2 = List.of("termin jest zajęty! Wybierz inny");
+            return gson.toJson(listError2);
+        }
+        List<String> listOK = List.of("wolne");
+        return gson.toJson(listOK);
     }
 
 

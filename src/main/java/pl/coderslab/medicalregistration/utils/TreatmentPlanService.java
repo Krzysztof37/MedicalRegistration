@@ -1,6 +1,7 @@
 package pl.coderslab.medicalregistration.utils;
 
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import pl.coderslab.medicalregistration.controller.TreatmentPlanController;
 import pl.coderslab.medicalregistration.entity.TreatmentPlan;
@@ -29,6 +30,15 @@ public class TreatmentPlanService {
 
     return true;
 }
+
+    public boolean frontEndDateTimeChecker(LocalDate date, LocalTime time, Long idStation, Long idPatients){
+        if(treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndTreatmentStationId(date,time,idStation)
+                || treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndPatientId(date, time, idPatients)){
+            return false;
+        }
+
+        return true;
+    }
 
 public List<LocalDate> getDateListService(){
     List<LocalDate> dateList = new ArrayList<>();
