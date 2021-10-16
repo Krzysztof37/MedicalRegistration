@@ -1,6 +1,7 @@
 package pl.coderslab.medicalregistration.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import pl.coderslab.medicalregistration.entity.Patient;
 import pl.coderslab.medicalregistration.entity.TreatmentStation;

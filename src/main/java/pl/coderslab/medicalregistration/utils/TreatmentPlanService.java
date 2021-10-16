@@ -1,6 +1,7 @@
 package pl.coderslab.medicalregistration.utils;
 
 
+import net.bytebuddy.asm.Advice;
 import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import pl.coderslab.medicalregistration.controller.TreatmentPlanController;
@@ -31,13 +32,22 @@ public class TreatmentPlanService {
     return true;
 }
 
-    public boolean frontEndDateTimeChecker(LocalDate date, LocalTime time, Long idStation, Long idPatients){
-        if(treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndTreatmentStationId(date,time,idStation)
-                || treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndPatientId(date, time, idPatients)){
-            return false;
+    public List<String> frontEndDateTimeChecker(LocalDate date, LocalTime time, Long idStation, Long idPatients){
+        List<String> freeHourList = new ArrayList<>();
+        LocalTime timeStart = LocalTime.of(8,30);
+        LocalTime timeStop = LocalTime.of(15,00);
+        while(timeStart.isBefore(timeStop)) {
+
+            if (treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndTreatmentStationId(date, timeStart, idStation)
+                    || treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndPatientId(date, timeStart, idPatients) || isSunday(date)) {
+                freeHourList.add("zajęte");
+            } else {
+                freeHourList.add("wolne");
+            }
+            timeStart = timeStart.plusMinutes(30);
         }
 
-        return true;
+        return freeHourList;
     }
 
 public List<LocalDate> getDateListService(){

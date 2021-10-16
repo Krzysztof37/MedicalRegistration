@@ -1,6 +1,7 @@
 package pl.coderslab.medicalregistration.controller;
 
 import com.google.gson.Gson;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 public class TreatmentPlanController {
@@ -38,15 +40,18 @@ public class TreatmentPlanController {
 
 
     @GetMapping("/plans/getall")
-    public String allPlans(Model model){
+    public String allPlans(Model model, HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        Gson gson = new Gson();
         List<TreatmentPlan> treatmentPlanList = treatmentPlanRepository.findAll();
         List<TreatmentPlan> treatmentPlanList2 = treatmentPlanRepository.findAllByDate(LocalDate.now());
         model.addAttribute("treatmentPlanList", treatmentPlanList);
         model.addAttribute("treatmentPlanList2",treatmentPlanList2);
         model.addAttribute("planInfo", planInfo);
-        return "allplans";
-    }
+        return gson.toJson(treatmentPlanList.stream().flatMap(e -> Stream.of(e.getDate().toString(), e.getTime().toString(), e.getTreatmentStation().getNameStation(), e.getPatient().getFullName())).collect(Collectors.toList()));
 
+
+    }
     @GetMapping("/plans/add")
     public String addPlans(Model model){
         model.addAttribute("treatmentPlan", new TreatmentPlan());
@@ -108,22 +113,15 @@ public class TreatmentPlanController {
         return gson.toJson(patientRepository.findAll());
     }
 
-    @GetMapping("/check/dateTime/{date}/{time}/{idStation}/{idPatients}")
-   String frontEndCheckDateTime(@PathVariable String date, @PathVariable String time, @PathVariable Long idStation,@PathVariable Long idPatients, HttpServletResponse resp){
+    @GetMapping("/check/dateTime")
+   String frontEndCheckDateTime(@Param("date") String date, @Param("time") String time, @Param("idStation") Long idStation,@Param("idPatients") Long idPatients, HttpServletResponse resp){
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
 
-        if(treatmentPlanService.isSunday(LocalDate.parse(date))){
-            List<String> listError1 = List.of("To niedziela!");
-            return gson.toJson(listError1);
-        }
+        List<String> freeHourList = treatmentPlanService.frontEndDateTimeChecker(LocalDate.parse(date),LocalTime.parse(time), idStation, idPatients);
 
-        if(!treatmentPlanService.frontEndDateTimeChecker(LocalDate.parse(date),LocalTime.parse(time),idStation, idPatients)){
-            List<String> listError2 = List.of("termin jest zajęty! Wybierz inny");
-            return gson.toJson(listError2);
-        }
-        List<String> listOK = List.of("wolne");
-        return gson.toJson(listOK);
+
+        return gson.toJson(freeHourList);
     }
 
 

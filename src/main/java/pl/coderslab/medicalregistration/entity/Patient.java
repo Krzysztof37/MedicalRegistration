@@ -35,4 +35,10 @@ public class Patient {
     public String toString() {
         return "Pacjent: "+name+" "+surName;
     }
+
+    public String getFullName(){
+        return getName()+" "+getSurName();
+    }
+
+
 }
