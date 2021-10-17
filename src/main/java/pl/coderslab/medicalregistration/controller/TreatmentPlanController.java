@@ -123,6 +123,10 @@ public class TreatmentPlanController {
 
         return gson.toJson(freeHourList);
     }
+    @GetMapping("/plan/delete")
+    void deletePatients(@Param("idTreatmentPlan") Long idTreatmentPlan){
+        treatmentPlanRepository.deleteById(idTreatmentPlan);
 
+    }
 
 }
