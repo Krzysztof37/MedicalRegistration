@@ -80,7 +80,9 @@ public class TreatmentPlanController {
         if (dayNumber > 1) {
             planInfo = treatmentPlanService.automaticPlan(dayNumber, treatmentPlan);
         }
-
+        if(planInfo == null){
+            planInfo = "brak";
+        }
         List<String> listSave = List.of("Zapis wykonany", " ewentaulne błędy: ", planInfo);
         return gson.toJson(listSave);
     }
