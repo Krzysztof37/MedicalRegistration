@@ -60,6 +60,7 @@ public class TreatmentPlanController {
     @PostMapping("/plans/add")
     public String addPlansPost(@Valid TreatmentPlan treatmentPlan, BindingResult result, @Param("dayNumber") int dayNumber, HttpServletResponse resp, @Param("date") String date, @Param("time") String time) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
+        planInfo = null;
         treatmentPlan.setDate(LocalDate.parse(date));
         treatmentPlan.setTime(LocalTime.parse(time));
         Gson gson = new Gson();
@@ -80,7 +81,7 @@ public class TreatmentPlanController {
         if (dayNumber > 1) {
             planInfo = treatmentPlanService.automaticPlan(dayNumber, treatmentPlan);
         }
-        if(planInfo == null){
+        if(planInfo == null || planInfo.equals("")){
             planInfo = "brak";
         }
         List<String> listSave = List.of("Zapis wykonany", " ewentaulne błędy: ", planInfo);
