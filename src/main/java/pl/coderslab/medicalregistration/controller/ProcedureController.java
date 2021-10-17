@@ -30,34 +30,31 @@ public class ProcedureController {
 
 
     @GetMapping("/procedure/getall")
-    public String allstations(Model model, HttpServletResponse resp){
+    public String allstations(HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         List<Procedure> procedureList = procedureRepository.findAll();
-        model.addAttribute("procedureList", procedureList);
+
         Gson gson = new Gson();
-        String newList = gson.toJson(procedureList);
-        return newList;
+        return gson.toJson(procedureList);
     }
 
     @GetMapping("/procedure/add")
-    public String addstations(Model model){
-        model.addAttribute("procedure", new Procedure());
+    public String addstations() {
         return "addprocedure-form";
     }
 
     @PostMapping("/procedure/add")
-    public Object addstationsPost(@Valid Procedure procedure, BindingResult result, HttpServletResponse resp){
+    public Object addstationsPost(@Valid Procedure procedure, BindingResult result, HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
-        if(result.hasErrors()){
-         return result.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage);
-        }else{
+        if (result.hasErrors()) {
+            return result.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage);
+        } else {
             procedureRepository.save(procedure);
         }
         List<String> list = List.of("zapis wykonany");
         return gson.toJson(list);
     }
-
 
 
 }

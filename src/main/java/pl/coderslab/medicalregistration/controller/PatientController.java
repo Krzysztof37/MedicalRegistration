@@ -37,7 +37,7 @@ public class PatientController {
     }
 
     @GetMapping(value = "/patients/getall")
-    public String allPatients(Model model, HttpServletResponse resp){
+    public String allPatients(HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         List<Patient> patientsList = patientRepository.findAll();
         Gson gson = new Gson();
@@ -46,30 +46,25 @@ public class PatientController {
     }
 
     @GetMapping("/patients/add")
-     public String addPatients(HttpServletResponse resp){
+    public String addPatients(HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Patient patient = new Patient();
         Gson gson = new Gson();
         return gson.toJson(procedureRepository.findAll());
     }
+
     @PostMapping("/patients/add")
-    public Object addPatientsPost(@Valid Patient patient, BindingResult result, HttpServletResponse resp, HttpServletRequest req){
+    public Object addPatientsPost(@Valid Patient patient, BindingResult result, HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return result.getFieldErrors().stream().map(e -> e.getDefaultMessage());
 
-        }else{
+        } else {
             patientRepository.save(patient);
         }
         List<String> list = List.of("zapis wykonany");
         return gson.toJson(list);
-    }
-
-    @ModelAttribute("procedures")
-    List<Procedure> getProceduresList(){
-        return procedureRepository.findAll();
-
     }
 
 
