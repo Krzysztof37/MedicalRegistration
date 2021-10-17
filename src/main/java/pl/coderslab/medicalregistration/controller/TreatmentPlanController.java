@@ -46,7 +46,7 @@ public class TreatmentPlanController {
         List<TreatmentPlan> treatmentPlanList = treatmentPlanRepository.findAll();
         List<TreatmentPlan> treatmentPlanList2 = treatmentPlanRepository.findAllByDate(LocalDate.now());
 
-        return gson.toJson(treatmentPlanList.stream().flatMap(e -> Stream.of(e.getDate().toString(), e.getTime().toString(), e.getTreatmentStation().getNameStation(), e.getPatient().getFullName())).collect(Collectors.toList()));
+        return gson.toJson(treatmentPlanList.stream().flatMap(e -> Stream.of(e.getDate().toString(), e.getTime().toString(), e.getTreatmentStation().getNameStation(), e.getPatient().getFullName(), e.getId())).collect(Collectors.toList()));
 
 
     }
