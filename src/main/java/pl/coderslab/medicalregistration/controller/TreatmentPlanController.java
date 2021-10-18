@@ -127,7 +127,8 @@ public class TreatmentPlanController {
         return gson.toJson(freeHourList);
     }
     @GetMapping("/plan/delete")
-    void deletePatients(@Param("idTreatmentPlan") Long idTreatmentPlan){
+    void deletePatients(@Param("idTreatmentPlan") Long idTreatmentPlan, HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
         treatmentPlanRepository.deleteById(idTreatmentPlan);
 
     }
