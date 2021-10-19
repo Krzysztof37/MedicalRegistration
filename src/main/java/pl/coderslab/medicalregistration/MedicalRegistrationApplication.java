@@ -11,19 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.servlet.annotation.WebFilter;
 
 @SpringBootApplication
-@EnableTransactionManagement
-@EnableJpaRepositories
 public class MedicalRegistrationApplication implements WebMvcConfigurer {
 
-	@Override
-	public void addFormatters(FormatterRegistry registry) {
-		registry.addConverter(procedureConverter());
-	}
 
-	@Bean
-	ProcedureConverter procedureConverter(){
-		return new ProcedureConverter();
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(MedicalRegistrationApplication.class, args);
