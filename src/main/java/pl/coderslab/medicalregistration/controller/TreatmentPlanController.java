@@ -51,11 +51,7 @@ public class TreatmentPlanController {
 
     }
 
-    @GetMapping("/plans/add")
-    public String addPlans() {
 
-        return "addplans-form";
-    }
 
     @PostMapping("/plans/add")
     public String addPlansPost(@Valid TreatmentPlan treatmentPlan, BindingResult result, @Param("dayNumber") int dayNumber, HttpServletResponse resp, @Param("date") String date, @Param("time") String time) {

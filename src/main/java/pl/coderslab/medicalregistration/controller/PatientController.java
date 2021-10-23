@@ -48,7 +48,7 @@ public class PatientController {
     @GetMapping("/patients/add")
     public String addPatients(HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
-        Patient patient = new Patient();
+
         Gson gson = new Gson();
         return gson.toJson(procedureRepository.findAll());
     }

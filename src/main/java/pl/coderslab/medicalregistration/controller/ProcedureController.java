@@ -38,10 +38,7 @@ public class ProcedureController {
         return gson.toJson(procedureList);
     }
 
-    @GetMapping("/procedure/add")
-    public String addstations() {
-        return "addprocedure-form";
-    }
+
 
     @PostMapping("/procedure/add")
     public Object addstationsPost(@Valid Procedure procedure, BindingResult result, HttpServletResponse resp) {
