@@ -1,12 +1,9 @@
 package pl.coderslab.medicalregistration.controller;
 
 import com.google.gson.Gson;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.repository.query.Param;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.medicalregistration.entity.TreatmentPlan;
@@ -40,11 +37,11 @@ public class TreatmentPlanController {
 
 
     @GetMapping("/plans/getall")
-    public String allPlans( HttpServletResponse resp) {
+    public String allPlans(HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
         List<TreatmentPlan> treatmentPlanList = treatmentPlanRepository.findAll();
-        List<TreatmentPlan> treatmentPlanList2 = treatmentPlanRepository.findAllByDate(LocalDate.now());
+
 
         return gson.toJson(treatmentPlanList.stream().flatMap(e -> Stream.of(e.getDate().toString(), e.getTime().toString(), e.getTreatmentStation().getNameStation(), e.getPatient().getFullName(), e.getId())).collect(Collectors.toList()));
 
@@ -52,11 +49,10 @@ public class TreatmentPlanController {
     }
 
 
-
     @PostMapping("/plans/add")
     public String addPlansPost(@Valid TreatmentPlan treatmentPlan, BindingResult result, @Param("dayNumber") int dayNumber, HttpServletResponse resp, @Param("date") String date, @Param("time") String time) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
-        planInfo = null;
+
         treatmentPlan.setDate(LocalDate.parse(date));
         treatmentPlan.setTime(LocalTime.parse(time));
         Gson gson = new Gson();
@@ -77,7 +73,7 @@ public class TreatmentPlanController {
         if (dayNumber > 1) {
             planInfo = treatmentPlanService.automaticPlan(dayNumber, treatmentPlan);
         }
-        if(planInfo == null || planInfo.equals("")){
+        if (planInfo == null || planInfo.equals("")) {
             planInfo = "brak";
         }
         List<String> listSave = List.of("Zapis wykonany", " ewentaulne błędy: ", planInfo);
@@ -88,14 +84,14 @@ public class TreatmentPlanController {
     Object getDateList(HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
-        return gson.toJson(treatmentPlanService.getDateListService().stream().map(e -> e.toString()).collect(Collectors.toList()));
+        return gson.toJson(treatmentPlanService.getDateListService().stream().map(LocalDate::toString).collect(Collectors.toList()));
     }
 
     @GetMapping("/get/time")
     String getTimeList(HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
-        return gson.toJson(treatmentPlanService.getTimeListService().stream().map(e -> e.toString()).collect(Collectors.toList()));
+        return gson.toJson(treatmentPlanService.getTimeListService().stream().map(LocalTime::toString).collect(Collectors.toList()));
     }
 
     @GetMapping("/get/treatmentStation")
@@ -122,11 +118,21 @@ public class TreatmentPlanController {
 
         return gson.toJson(freeHourList);
     }
+
     @GetMapping("/plan/delete")
-    void deletePatients(@Param("idTreatmentPlan") Long idTreatmentPlan, HttpServletResponse resp){
+    void deletePatients(@Param("idTreatmentPlan") Long idTreatmentPlan, HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         treatmentPlanRepository.deleteById(idTreatmentPlan);
 
+    }
+
+    @GetMapping("/get/treatmentStation/forPatient")
+    String getTreatmentStationForPatient(HttpServletResponse resp, @Param("procedureId") Long procedureId ) {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        Gson gson = new Gson();
+        System.out.println(procedureId);
+        System.out.println(treatmentStationRepository.findByProcedureId(procedureId));
+        return gson.toJson(treatmentStationRepository.findByProcedureId(procedureId));
     }
 
 }

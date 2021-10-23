@@ -1,17 +1,10 @@
 package pl.coderslab.medicalregistration.controller;
 
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import org.springframework.boot.jackson.JsonComponent;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.data.repository.query.Param;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.medicalregistration.entity.Patient;
@@ -19,9 +12,9 @@ import pl.coderslab.medicalregistration.entity.Procedure;
 import pl.coderslab.medicalregistration.utils.PatientRepository;
 import pl.coderslab.medicalregistration.utils.ProcedureRepository;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -65,6 +58,17 @@ public class PatientController {
         }
         List<String> list = List.of("zapis wykonany");
         return gson.toJson(list);
+    }
+
+    @GetMapping("/patients/getone")
+    public String getOnePatient(@Param("patientId") Long patientId, HttpServletResponse resp){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+       Patient patient =  patientRepository.getById(patientId);
+       Gson gson = new Gson();
+       List<Procedure> list = patient.getProcedure();
+
+       return gson.toJson(list);
+
     }
 
 
