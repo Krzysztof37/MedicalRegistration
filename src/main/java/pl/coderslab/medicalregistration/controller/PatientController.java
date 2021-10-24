@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pl.coderslab.medicalregistration.entity.Patient;
 import pl.coderslab.medicalregistration.entity.Procedure;
 import pl.coderslab.medicalregistration.utils.PatientRepository;
@@ -25,6 +26,12 @@ public class PatientController {
     public PatientController(PatientRepository patientRepository, ProcedureRepository procedureRepository) {
         this.patientRepository = patientRepository;
         this.procedureRepository = procedureRepository;
+    }
+
+    @GetMapping("/")
+    @ResponseBody
+    public String welcomeText(){
+        return "witaj w aplikacji";
     }
 
     @GetMapping("/patients/getall")
