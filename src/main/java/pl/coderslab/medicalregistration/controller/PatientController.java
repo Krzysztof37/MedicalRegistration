@@ -28,11 +28,7 @@ public class PatientController {
         this.procedureRepository = procedureRepository;
     }
 
-    @GetMapping("/")
-    @ResponseBody
-    public String welcomeText(){
-        return "witaj w aplikacji";
-    }
+
 
     @GetMapping("/patients/getall")
     public String allPatients(Model model){
