@@ -18,7 +18,7 @@ import java.time.LocalTime;
 public class TreatmentPlan {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE )
     Long id;
     LocalDate date;
     LocalTime time;

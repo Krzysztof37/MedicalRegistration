@@ -17,7 +17,7 @@ import java.util.List;
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
     @NotBlank(message = "wypełnij pole imię")
     @Size(min=2, message = "imię - zbyt mało znaków")
