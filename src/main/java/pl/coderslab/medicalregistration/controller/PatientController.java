@@ -70,6 +70,10 @@ public class PatientController {
        return gson.toJson(list);
 
     }
+    @GetMapping("/patients/delete")
+    public void patientsDelete(@Param("patientId") Long patientId ){
+        patientRepository.deleteById(patientId);
+    }
 
 
 }
