@@ -71,7 +71,8 @@ public class PatientController {
 
     }
     @GetMapping("/patients/delete")
-    public void patientsDelete(@Param("patientId") Long patientId ){
+    public void patientsDelete(@Param("patientId") Long patientId, HttpServletResponse resp ){
+        resp.setHeader("Access-Control-Allow-Origin", "*");
         patientRepository.deleteById(patientId);
     }
 
