@@ -36,6 +36,7 @@ public class TreatmentPlanService {
         List<String> freeHourList = new ArrayList<>();
         LocalTime timeStart = LocalTime.of(8, 30);
         LocalTime timeStop = LocalTime.of(15, 00);
+
         while (timeStart.isBefore(timeStop)) {
 
             if (treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndTreatmentStationId(date, timeStart, idStation)
@@ -54,6 +55,7 @@ public class TreatmentPlanService {
         List<LocalDate> dateList = new ArrayList<>();
         LocalDate actualDate = LocalDate.now();
         dateList.add(actualDate);
+
         for (int i = 0; i < 30; i++) {
             actualDate = actualDate.plusDays(1L);
             dateList.add(actualDate);
@@ -79,6 +81,7 @@ public class TreatmentPlanService {
         LocalTime endTime = LocalTime.of(15, 00);
         LocalTime checkTime = LocalTime.of(14, 30);
         Long days = 1L;
+
         for (int i = 0; i < dayNumber - 1; i++) {
             TreatmentPlan treatmentPlanNew = new TreatmentPlan();
             treatmentPlanNew.setDate(treatmentPlan.getDate());
@@ -86,12 +89,15 @@ public class TreatmentPlanService {
             treatmentPlanNew.setTime(treatmentPlan.getTime());
             treatmentPlanNew.setTreatmentStation(treatmentPlan.getTreatmentStation());
             treatmentPlanNew.setPatient(treatmentPlan.getPatient());
+
             if (isSunday(treatmentPlanNew.getDate())) {
                 treatmentPlanNew.setDate(treatmentPlanNew.getDate().plusDays(1L));
                 days++;
             }
+
             boolean checkAllDay = true;
             boolean isSaved = false;
+
             while (treatmentPlanNew.getTime().isBefore(endTime)) {
                 if (!treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndTreatmentStationId(treatmentPlanNew.getDate(), treatmentPlanNew.getTime(), treatmentPlanNew.getTreatmentStation().getId())) {
                     if (!treatmentPlanRepository.existsTreatmentPlanByDateAndTimeAndPatientId(treatmentPlanNew.getDate(), treatmentPlanNew.getTime(), treatmentPlanNew.getPatient().getId())) {
@@ -100,6 +106,7 @@ public class TreatmentPlanService {
                         break;
                     }
                 }
+
                 treatmentPlanNew.setTime(treatmentPlanNew.getTime().plusMinutes(30));
                 if (treatmentPlanNew.getTime().equals(checkTime) && checkAllDay) {
                     checkAllDay = false;

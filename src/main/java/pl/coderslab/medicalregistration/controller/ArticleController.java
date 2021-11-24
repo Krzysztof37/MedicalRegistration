@@ -25,14 +25,16 @@ public class ArticleController {
     public String getArticles(@Param("keyWord") String keyWord, HttpServletResponse resp) throws IOException {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
+
         if (keyWord == null) {
             keyWord = "Fizjoterapia";
         }
+
         Elements elements;
         elements = articleService.getArticleElements(keyWord);
 
         String elementsString = elements.toString();
-        String elementsArray[] = elementsString.replaceAll("</a>","</a>:::").split(":::");
+        String elementsArray[] = elementsString.replaceAll("</a>", "</a>:::").split(":::");
 
         return gson.toJson(elementsArray);
 
