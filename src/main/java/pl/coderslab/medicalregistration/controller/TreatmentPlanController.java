@@ -56,6 +56,7 @@ public class TreatmentPlanController {
         treatmentPlan.setDate(LocalDate.parse(date));
         treatmentPlan.setTime(LocalTime.parse(time));
         Gson gson = new Gson();
+
         if (treatmentPlanService.isSunday(treatmentPlan.getDate())) {
 
             List<String> listError1 = List.of("To niedziela!");
@@ -73,9 +74,11 @@ public class TreatmentPlanController {
         if (dayNumber > 1) {
             planInfo = treatmentPlanService.automaticPlan(dayNumber, treatmentPlan);
         }
+
         if (planInfo == null || planInfo.equals("")) {
             planInfo = "brak";
         }
+
         List<String> listSave = List.of("Zapis wykonany", " ewentaulne błędy: ", planInfo);
         return gson.toJson(listSave);
     }
@@ -127,11 +130,10 @@ public class TreatmentPlanController {
     }
 
     @GetMapping("/get/treatmentStation/forPatient")
-    String getTreatmentStationForPatient(HttpServletResponse resp, @Param("procedureId") Long procedureId ) {
+    String getTreatmentStationForPatient(HttpServletResponse resp, @Param("procedureId") Long procedureId) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
-        System.out.println(procedureId);
-        System.out.println(treatmentStationRepository.findByProcedureId(procedureId));
+
         return gson.toJson(treatmentStationRepository.findByProcedureId(procedureId));
     }
 

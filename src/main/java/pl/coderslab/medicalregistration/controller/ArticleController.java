@@ -25,9 +25,11 @@ public class ArticleController {
     public String getArticles(@Param("keyWord") String keyWord, HttpServletResponse resp) throws IOException {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
+
         if (keyWord == null) {
             keyWord = "Fizjoterapia";
         }
+
         Elements elements;
         elements = articleService.getArticleElements(keyWord);
 

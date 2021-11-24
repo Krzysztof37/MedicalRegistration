@@ -50,28 +50,32 @@ public class PatientController {
     public Object addPatientsPost(@Valid Patient patient, BindingResult result, HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
+
         if (result.hasErrors()) {
             return result.getFieldErrors().stream().map(e -> e.getDefaultMessage());
 
         } else {
+
             patientRepository.save(patient);
+
         }
         List<String> list = List.of("zapis wykonany");
         return gson.toJson(list);
     }
 
     @GetMapping("/patients/getone")
-    public String getOnePatient(@Param("patientId") Long patientId, HttpServletResponse resp){
+    public String getOnePatient(@Param("patientId") Long patientId, HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
-       Patient patient =  patientRepository.getById(patientId);
-       Gson gson = new Gson();
-       List<Procedure> list = patient.getProcedure();
+        Patient patient = patientRepository.getById(patientId);
+        Gson gson = new Gson();
+        List<Procedure> list = patient.getProcedure();
 
-       return gson.toJson(list);
+        return gson.toJson(list);
 
     }
+
     @GetMapping("/patients/delete")
-    public void patientsDelete(@Param("patientId") Long patientId, HttpServletResponse resp ){
+    public void patientsDelete(@Param("patientId") Long patientId, HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         patientRepository.deleteById(patientId);
     }

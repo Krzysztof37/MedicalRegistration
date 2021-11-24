@@ -35,7 +35,7 @@ public class ProcedureController {
 
 
     @GetMapping("/procedure/add")
-    public List<String> addstations(){
+    public List<String> addstations() {
         return List.of("Metoda get");
     }
 
@@ -44,8 +44,10 @@ public class ProcedureController {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         Gson gson = new Gson();
         if (result.hasErrors()) {
+
             return result.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage);
         } else {
+
             procedureRepository.save(procedure);
         }
         List<String> list = List.of("zapis wykonany");
