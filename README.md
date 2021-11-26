@@ -7,5 +7,5 @@ Jest także możliwość automatycznego planowania pacjenta na maksymalnie 15 dn
 Wykorzystane technologie: Java, SpringBoot, Hibernate, SpringData
 Baza danych: mySQL lub PostgreSQL
 
-Podstawoa gałąź operuje na plikach jsp - dane przekazywane śą do widoków
+Podstawowa gałąź operuje na plikach jsp - dane przekazywane śą do widoków
 Pozostałe gałęzie zwracają pliki typu JSON - REST API
