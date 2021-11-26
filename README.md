@@ -8,4 +8,4 @@ Wykorzystane technologie: Java, SpringBoot, Hibernate, SpringData.
 Baza danych: mySQL lub PostgreSQL
 
 Podstawowa gałąź operuje na plikach jsp - dane przekazywane są do widoków.
-Pozostałe gałęzie zwracają pliki typu JSON - REST API.
+Pozostałe gałęzie zwracają w kontrolerach pliki typu JSON - REST API.
