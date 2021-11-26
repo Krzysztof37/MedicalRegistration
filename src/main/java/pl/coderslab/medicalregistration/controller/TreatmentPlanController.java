@@ -38,62 +38,72 @@ public class TreatmentPlanController {
 
 
     @GetMapping("/plans/getall")
-    public String allPlans(Model model){
+    public String allPlans(Model model) {
         List<TreatmentPlan> treatmentPlanList = treatmentPlanRepository.findAll();
         List<TreatmentPlan> treatmentPlanList2 = treatmentPlanRepository.findAllByDate(LocalDate.now());
         model.addAttribute("treatmentPlanList", treatmentPlanList);
-        model.addAttribute("treatmentPlanList2",treatmentPlanList2);
+        model.addAttribute("treatmentPlanList2", treatmentPlanList2);
         model.addAttribute("planInfo", planInfo);
         return "allplans";
     }
 
     @GetMapping("/plans/add")
-    public String addPlans(Model model){
+    public String addPlans(Model model) {
         model.addAttribute("treatmentPlan", new TreatmentPlan());
 
         return "addplans-form";
     }
+
     @PostMapping("/plans/add")
-    public String addPlansPost(@Valid TreatmentPlan treatmentPlan, BindingResult result, Model model, @Param("dayNumber") int dayNumber){
-        if(treatmentPlanService.isSunday(treatmentPlan.getDate())){
-            model.addAttribute("sundayError","To niedziela!");
+    public String addPlansPost(@Valid TreatmentPlan treatmentPlan, BindingResult result, Model model, @Param("dayNumber") int dayNumber) {
+        if (treatmentPlanService.isSunday(treatmentPlan.getDate())) {
+
+            model.addAttribute("sundayError", "To niedziela!");
             return "addplans-form";
+
         }
 
-       if(!treatmentPlanService.DateTimeChecker(treatmentPlan)){
-           model.addAttribute("uniqueError","termin jest zajęty! Wybierz inny");
-           return "addplans-form";
-       }
+        if (!treatmentPlanService.DateTimeChecker(treatmentPlan)) {
 
-        if(result.hasErrors()){
+            model.addAttribute("uniqueError", "termin jest zajęty! Wybierz inny");
 
             return "addplans-form";
-        }else{
+
+        }
+
+        if (result.hasErrors()) {
+
+            return "addplans-form";
+
+        } else {
 
             treatmentPlanRepository.save(treatmentPlan);
-            if(dayNumber>1){
-                planInfo = treatmentPlanService.automaticPlan(dayNumber,treatmentPlan);
+
+            if (dayNumber > 1) {
+
+                planInfo = treatmentPlanService.automaticPlan(dayNumber, treatmentPlan);
             }
         }
         return "redirect:/plans/getall";
     }
 
     @ModelAttribute("date")
-    List<LocalDate> getDateList(){
+    List<LocalDate> getDateList() {
         return treatmentPlanService.getDateListService();
     }
 
     @ModelAttribute("time")
-    List<LocalTime> getTimeList(){
+    List<LocalTime> getTimeList() {
         return treatmentPlanService.getTimeListService();
     }
 
     @ModelAttribute("treatmentStation")
-    List<TreatmentStation> getTreatmentStationList(){
+    List<TreatmentStation> getTreatmentStationList() {
         return treatmentStationRepository.findAll();
     }
+
     @ModelAttribute("patients")
-    List<Patient> getPatients(){
+    List<Patient> getPatients() {
         return patientRepository.findAll();
     }
 

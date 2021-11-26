@@ -28,7 +28,7 @@ public class TreatmentStationController {
 
 
     @GetMapping("/stations/getall")
-    public String allStations(Model model){
+    public String allStations(Model model) {
         List<TreatmentStation> stationsList = treatmentStationRepository.findAll();
         model.addAttribute("stationsList", stationsList);
 
@@ -36,21 +36,23 @@ public class TreatmentStationController {
     }
 
     @GetMapping("/stations/add")
-    public String addStations(Model model){
+    public String addStations(Model model) {
         model.addAttribute("treatmentStation", new TreatmentStation());
 
         return "addstations-form";
     }
+
     @PostMapping("/stations/add")
-    public String addStationsPost(@Valid TreatmentStation treatmentStation, BindingResult result){
-        if(result.hasErrors()){
+    public String addStationsPost(@Valid TreatmentStation treatmentStation, BindingResult result) {
+        if (result.hasErrors()) {
 
             return "addstations-form";
-        }else{
+        } else {
             treatmentStationRepository.save(treatmentStation);
         }
         return "redirect:/stations/getall";
     }
+
     @ModelAttribute("procedures")
     List<Procedure> getProceduresList() {
         return procedureRepository.findAll();

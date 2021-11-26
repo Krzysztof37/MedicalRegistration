@@ -29,9 +29,8 @@ public class PatientController {
     }
 
 
-
     @GetMapping("/patients/getall")
-    public String allPatients(Model model){
+    public String allPatients(Model model) {
         List<Patient> patientsList = patientRepository.findAll();
         model.addAttribute("patientsList", patientsList);
 
@@ -39,24 +38,25 @@ public class PatientController {
     }
 
     @GetMapping("/patients/add")
-     public String addPatients(Model model){
+    public String addPatients(Model model) {
         model.addAttribute("patient", new Patient());
 
         return "addpatients-form";
     }
+
     @PostMapping("/patients/add")
-    public String addPatientsPost(@Valid Patient patient, BindingResult result){
-        if(result.hasErrors()){
+    public String addPatientsPost(@Valid Patient patient, BindingResult result) {
+        if (result.hasErrors()) {
 
             return "addpatients-form";
-        }else{
+        } else {
             patientRepository.save(patient);
         }
         return "redirect:/patients/getall";
     }
 
     @ModelAttribute("procedures")
-    List<Procedure> getProceduresList(){
+    List<Procedure> getProceduresList() {
         return procedureRepository.findAll();
 
     }

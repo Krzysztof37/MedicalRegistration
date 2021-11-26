@@ -24,7 +24,7 @@ public class ProcedureController {
 
 
     @GetMapping("/procedure/getall")
-    public String allstations(Model model){
+    public String allstations(Model model) {
         List<Procedure> procedureList = procedureRepository.findAll();
         model.addAttribute("procedureList", procedureList);
 
@@ -32,21 +32,21 @@ public class ProcedureController {
     }
 
     @GetMapping("/procedure/add")
-    public String addstations(Model model){
+    public String addstations(Model model) {
         model.addAttribute("procedure", new Procedure());
 
         return "addprocedure-form";
     }
+
     @PostMapping("/procedure/add")
-    public String addstationsPost(@Valid Procedure procedure, BindingResult result){
-        if(result.hasErrors()){
+    public String addstationsPost(@Valid Procedure procedure, BindingResult result) {
+        if (result.hasErrors()) {
             return "addprocedure-form";
-        }else{
+        } else {
             procedureRepository.save(procedure);
         }
         return "redirect:/procedure/getall";
     }
-
 
 
 }

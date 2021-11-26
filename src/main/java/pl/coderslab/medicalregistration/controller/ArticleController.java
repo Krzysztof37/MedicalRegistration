@@ -19,22 +19,21 @@ public class ArticleController {
     }
 
     @GetMapping("/seekArticle")
-    public String seekArticle(){
+    public String seekArticle() {
         return "allarticles";
     }
 
     @GetMapping("/articles/getall")
-    public String getArticles(Model model, @Param("keyWord")String keyWord) throws IOException {
-        if(keyWord == null){
+    public String getArticles(Model model, @Param("keyWord") String keyWord) throws IOException {
+        if (keyWord == null) {
             keyWord = "Fizjoterapia";
         }
         Elements elements;
         elements = articleService.getArticleElements(keyWord);
-        model.addAttribute("elements",elements);
+        model.addAttribute("elements", elements);
         return "allarticles";
 
     }
-
 
 
 }
