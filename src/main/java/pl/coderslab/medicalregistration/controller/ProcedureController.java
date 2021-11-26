@@ -30,6 +30,7 @@ public class ProcedureController {
         List<Procedure> procedureList = procedureRepository.findAll();
 
         Gson gson = new Gson();
+
         return gson.toJson(procedureList);
     }
 
