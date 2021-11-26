@@ -34,10 +34,6 @@ public class ProcedureController {
     }
 
 
-    @GetMapping("/procedure/add")
-    public List<String> addstations() {
-        return List.of("Metoda get");
-    }
 
     @PostMapping("/procedure/add")
     public Object addstationsPost(@Valid Procedure procedure, BindingResult result, HttpServletResponse resp) {
