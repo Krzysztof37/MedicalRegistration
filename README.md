@@ -9,3 +9,5 @@ Baza danych: mySQL lub PostgreSQL
 
 Podstawowa gałąź operuje na plikach jsp - dane przekazywane są do widoków.
 Pozostałe gałęzie zwracają w kontrolerach pliki typu JSON - REST API.
+
+Aplikacja została opublikowana na serwerze Heroku (niektóre funkcjonalności zostały wyłączone): https://medregistration.herokuapp.com/index.html
