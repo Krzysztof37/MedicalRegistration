@@ -2,7 +2,7 @@
 
 Medical registration is an application for registering patients for
 physiotherapy treatments. It has an automatic planning function.
-Technologies: Java, Spring Boot, Hibernate
+Technologies: Java, Spring Boot, Hibernate, SpringData
 DB: mySQL
 
 
@@ -16,4 +16,4 @@ Baza danych: mySQL
 Podstawowa gałąź operuje na plikach jsp - dane przekazywane są do widoków.
 Pozostałe gałęzie zwracają w kontrolerach pliki typu JSON - REST API.
 
-Aplikacja została opublikowana na serwerze Heroku (niektóre funkcjonalności zostały wyłączone): https://medregistration.herokuapp.com/index.html
+
