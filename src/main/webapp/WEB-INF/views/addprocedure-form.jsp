@@ -9,11 +9,11 @@
 
 <form:form method="post" modelAttribute="procedure">
     <label>Nazwa Procedury:</label><br>
-    <form:input path="procedureName"/><form:errors path="procedureName"/><br>
+    <form:input path="procedureName" id="addProcedureTest"/><form:errors path="procedureName"/><br>
     <label>Czas procedury</label><br>
-    <form:input path="procedureTime"/><form:errors path="procedureTime"/><br>
+    <form:input path="procedureTime" id="addProcedureTest2"/><form:errors path="procedureTime"/><br>
     
-    <input type="submit" value="wyślij"/>
+    <input type="submit" value="wyślij" id="addProcedureButton"/>
 </form:form>
 
 <a href="/procedure/add">Dodaj procedure</a>
